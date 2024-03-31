@@ -8,12 +8,12 @@ module.exports = {
     options: [
         {
             name: 'setup',
-            description: 'Setup a suggestion system.',
+            description: 'Настройка систему опросов.',
             type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: 'channel',
-                    description: 'Input a channel.',
+                    description: 'Выберете канал',
                     type: ApplicationCommandOptionType.Channel,
                     required: true
                 }
@@ -21,17 +21,17 @@ module.exports = {
         },
         {
             name: 'disable',
-            description: 'Setup a suggestion system.',
+            description: 'Настройка систему опросов',
             type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: 'submit',
-            description: 'Submit a suggestion.',
+            description: 'Отправьте свой опрос',
             type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: 'suggestion',
-                    description: 'Input a suggestion.',
+                    description: 'Опишите свой опрос.',
                     required: true,
                     type: ApplicationCommandOptionType.String
                 }
@@ -56,7 +56,7 @@ module.exports = {
 
                 const channel = client.channels.cache.get(Data.ChannelID);
 
-                return await interaction.reply({ content: `You already have a suggestion system **setup** in ${channel}!`, ephemeral: true });
+                return await interaction.reply({ content: `У вас уже есть настроенная система опросов в  ${channel}!`, ephemeral: true });
             } else {
 
                 await suggestion.create({
@@ -68,7 +68,7 @@ module.exports = {
                 .setColor('Green')
                 .setAuthor({ name: `${interaction.guild.name}'s Suggestion System`})
                 .setTitle('Success!')
-                .setDescription(`<a:AUSC_checked:1011088709266985110>・The suggestion system has been successfully **setup** in ${Schannel}!`)
+                .setDescription(`<a:AUSC_checked:1011088709266985110>・Система опросов была успешно включена в ${Schannel}!`)
 
                 await interaction.reply({ embeds: [embed], ephemeral: true });
             }
@@ -79,7 +79,7 @@ module.exports = {
             if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ content: `You can't use this command!`, ephemeral: true });
 
             if (!Data) {
-                return await interaction.reply({ content: `You don't a suggestion system **setup**!`, ephemeral: true });
+                return await interaction.reply({ content: `У вас нет системы опросов!`, ephemeral: true });
             } else {
 
                 await suggestion.deleteMany({
@@ -90,7 +90,7 @@ module.exports = {
                 .setColor('Green')
                 .setAuthor({ name: `${interaction.guild.name}'s Suggestion System`})
                 .setTitle('Success!')
-                .setDescription(`<a:AUSC_checked:1011088709266985110>・The suggestion system has been successfully **disable**!`)
+                .setDescription(`<a:AUSC_checked:1011088709266985110>・Система предложений была успешно включена !`)
 
                 await interaction.reply({ embeds: [embed], ephemeral: true });
             }
@@ -99,7 +99,7 @@ module.exports = {
             case 'submit':
 
             if (!Data) {
-                return await interaction.reply({ content: `You don't have a suggestion system **setup**!`, ephemeral: true });
+                return await interaction.reply({ content: `У вас нет системы опросов!`, ephemeral: true });
             } else {
 
                 const schannel = Data.ChannelID;
@@ -114,34 +114,34 @@ module.exports = {
                 const SuggestionID = `${num1}${num2}${num3}${num4}${num5}${num6}`;
 
                 const suggestionembed = new EmbedBuilder()
-                .setAuthor({ name: `${interaction.guild.name}'s Suggestion System`, iconURL: interaction.guild.iconURL({ size: 256 })})
+                .setAuthor({ name: `${interaction.guild.name}'а Система опросов`, iconURL: interaction.guild.iconURL({ size: 256 })})
                 .setColor('Blurple')
                 .setThumbnail(interaction.user.displayAvatarURL({ size: 512 }))
-                .setTitle(`Suggestion from ${interaction.user.username}`)
+                .setTitle(`Опрос от ${interaction.user.username}`)
                 .setDescription(`> \`${suggestmsg}\``)
                 .setTimestamp()
-                .setFooter({ text: `Suggestion ID: ${SuggestionID}`})
-                .addFields({ name: 'Upvotes', value: '**No votes**', inline: true})
-                .addFields({ name: 'Downvotes', value: '**No votes**', inline: true})
-                .addFields({ name: `Votes`, value: formatResults() })
-                .addFields({ name: 'Author', value: `> ${interaction.user}`, inline: false})
+                .setFooter({ text: `ID Опроса: ${SuggestionID}`})
+                .addFields({ name: 'Голоса за', value: '**No votes**', inline: true})
+                .addFields({ name: 'Голоса против', value: '**No votes**', inline: true})
+                .addFields({ name: `Голоса`, value: formatResults() })
+                .addFields({ name: 'Автор', value: `> ${interaction.user}`, inline: false})
 
                 const upvotebutton = new ButtonBuilder()
                 .setCustomId('upv')
-                .setEmoji('<:tup:1162598259626352652>')
-                .setLabel('Upvote')
+                .setEmoji('👍')
+                .setLabel('Голоса за')
                 .setStyle(ButtonStyle.Primary)
 
                 const downvotebutton = new ButtonBuilder()
                 .setCustomId('downv')
-                .setEmoji('<:tdown:1162598331390889994>')
-                .setLabel('Downvote')
+                .setEmoji('👎')
+                .setLabel('Голоса против')
                 .setStyle(ButtonStyle.Primary)
 
                 const totalvotesbutton = new ButtonBuilder()
                 .setCustomId('totalvotes')
-                .setEmoji('💭')
-                .setLabel('Votes')
+                .setEmoji('👀')
+                .setLabel('Голоса')
                 .setStyle(ButtonStyle.Secondary)
 
                 const btnrow = new ActionRowBuilder().addComponents(upvotebutton, downvotebutton, totalvotesbutton);
@@ -150,19 +150,19 @@ module.exports = {
                 .addComponents(
                     new ButtonBuilder()
                     .setCustomId('appr')
-                    .setEmoji('<a:AUSC_checked:1011088709266985110>')
-                    .setLabel('Approve')
+                    .setEmoji(':2galochka:')
+                    .setLabel('Одобрить')
                     .setStyle(ButtonStyle.Success),
 
                     new ButtonBuilder()
                     .setCustomId('rej')
-                    .setEmoji('<a:rejected:1162622460835922043>')
-                    .setLabel('Reject')
+                    .setEmoji(':2krest:')
+                    .setLabel('Отклонить')
                     .setStyle(ButtonStyle.Danger)
                 )
 
-                await interaction.reply({ content: `Your suggestion has been submitted in ${suggestionchannel}!`, ephemeral: true });
-                const msg = await suggestionchannel.send({ content: `${interaction.user}'s Suggestion`, embeds: [suggestionembed], components: [btnrow, button2] });
+                await interaction.reply({ content: `Ваше опрос был отправлен в ${suggestionchannel}!`, ephemeral: true });
+                const msg = await suggestionchannel.send({ content: `${interaction.user}'а Опрос`, embeds: [suggestionembed], components: [btnrow, button2] });
                 msg.createMessageComponentCollector();
 
                 await suggestion.create({
