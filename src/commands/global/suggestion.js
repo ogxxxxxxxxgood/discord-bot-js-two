@@ -4,7 +4,7 @@ const formatResults = require('../../utils/formatResults');
 
 module.exports = {
     name: 'suggestion',
-    description: 'Configure the suggestion system.',
+    description: 'Настройте систему опросов.',
     options: [
         {
             name: 'setup',
@@ -50,7 +50,7 @@ module.exports = {
         switch (sub) {
             case 'setup':
 
-            if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ content: `You can't use this command!`, ephemeral: true });
+            if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ content: `Вы не можете использовать эту команду!`, ephemeral: true });
 
             if (Data) {
 
@@ -90,7 +90,7 @@ module.exports = {
                 .setColor('Green')
                 .setAuthor({ name: `${interaction.guild.name}'s Suggestion System`})
                 .setTitle('Success!')
-                .setDescription(`<a:AUSC_checked:1011088709266985110>・Система предложений была успешно включена !`)
+                .setDescription(`:2galochka:・Система предложений была успешно включена !`)
 
                 await interaction.reply({ embeds: [embed], ephemeral: true });
             }
